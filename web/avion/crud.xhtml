@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/plantilla.xhtml">
+
+            <ui:define name="content">
+                <h:form id="frmAvion">
+                    <p:growl autoUpdate="true" />
+                    <p:panelGrid id="pnlAvion" columns="2">
+                        <p:outputLabel value="Id" for="txtId" />
+                        <p:inputText id="txtId" value="#{avionControlador.avionSeleccionado.idavion}" readonly="true" />
+
+                        <p:outputLabel value="Capacidad" for="txtCapacidad" />
+                        <p:inputText id="txtCapacidad" value="#{avionControlador.avionSeleccionado.capacidad}" />
+
+                        <p:outputLabel value="Descripción" for="txtDescripcion" />
+                        <p:inputText id="txtDescripcion" value="#{avionControlador.avionSeleccionado.descripcion}" />
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Guardar" icon="fa fa-save" action="#{avionControlador.guardar()}" update="frmAvion" />
+                        </f:facet>
+
+
+                    </p:panelGrid>
+
+                    <p:dataTable id="tblAvion" value="#{avionControlador.lstAvion}" var="objAvion" >
+                        <p:column headerText="Id">
+                            <p:outputLabel value="#{objAvion.idavion}" />
+                        </p:column>
+
+                        <p:column headerText="Capacidad">
+                            <p:outputLabel value="#{objAvion.capacidad}" />
+                        </p:column>
+
+                        <p:column headerText="Descripcion">
+                            <p:outputLabel value="#{objAvion.descripcion}" />
+                        </p:column>
+
+                        <p:column headerText="">
+                            <p:commandButton value="Editar" icon="fa fa-edit" process="@this" update="frmAvion" >
+                                <f:setPropertyActionListener target="#{avionControlador.avionSeleccionado}" value="#{objAvion}" />
+                            </p:commandButton>
+                        </p:column>
+
+                    </p:dataTable>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
