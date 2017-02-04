@@ -48,7 +48,7 @@ public class Avion implements Serializable {
     @NotNull
     @Column(name = "capacidad")
     @Min(value = 1)
-    private int capacidad;
+    private Integer capacidad;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 70)
@@ -64,7 +64,7 @@ public class Avion implements Serializable {
         this.idavion = idavion;
     }
 
-    public Avion(Integer idavion, int capacidad, String descripcion) {
+    public Avion(Integer idavion, Integer capacidad, String descripcion) {
         this.idavion = idavion;
         this.capacidad = capacidad;
         this.descripcion = descripcion;
@@ -78,11 +78,11 @@ public class Avion implements Serializable {
         this.idavion = idavion;
     }
 
-    public int getCapacidad() {
+    public Integer getCapacidad() {
         return capacidad;
     }
 
-    public void setCapacidad(int capacidad) {
+    public void setCapacidad(Integer capacidad) {
         this.capacidad = capacidad;
     }
 

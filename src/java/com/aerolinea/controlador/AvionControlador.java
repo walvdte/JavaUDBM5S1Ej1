@@ -11,6 +11,8 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 
@@ -29,16 +31,49 @@ public class AvionControlador implements Serializable {
 
     private Avion avionSeleccionado;
 
+    private String agregarEditar;
+    private String descripcionABuscar;
+
     @PostConstruct
     public void alCargar() {
+        descripcionABuscar = "";
+        inicializarVariables();
+    }
+
+    public String buscarPorDescripcion() {
+        lstAvion = daoAvion.buscarPorDescripcion(descripcionABuscar);
+        return null;
+    }
+
+    public void inicializarVariables() {
         avionSeleccionado = new Avion();
-        lstAvion = daoAvion.findAll();
+        lstAvion = daoAvion.buscarPorDescripcion(descripcionABuscar);
+        agregarEditar = "Agregar";
     }
 
     public String guardar() {
         daoAvion.edit(avionSeleccionado);
-        lstAvion = daoAvion.findAll();
-        avionSeleccionado = new Avion();
+        inicializarVariables();
+
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Datos guardados correctamente", ""));
+
+        return null;
+    }
+
+    public String cancelar() {
+        inicializarVariables();
+        return null;
+    }
+
+    public String eliminar() {
+        daoAvion.remove(avionSeleccionado);
+        inicializarVariables();
+        return null;
+    }
+
+    public String inicializarEditar() {
+        agregarEditar = "Editar";
         return null;
     }
 
@@ -56,6 +91,22 @@ public class AvionControlador implements Serializable {
 
     public void setLstAvion(List<Avion> lstAvion) {
         this.lstAvion = lstAvion;
+    }
+
+    public String getAgregarEditar() {
+        return agregarEditar;
+    }
+
+    public void setAgregarEditar(String agregarEditar) {
+        this.agregarEditar = agregarEditar;
+    }
+
+    public String getDescripcionABuscar() {
+        return descripcionABuscar;
+    }
+
+    public void setDescripcionABuscar(String descripcionABuscar) {
+        this.descripcionABuscar = descripcionABuscar;
     }
 
 }

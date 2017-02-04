@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/plantilla.xhtml">
+
+            <ui:define name="content">
+
+                <h:form id="frmAeropuerto">
+                    <p:dataTable value="#{aeropuertoControlador.lstAeropuerto}" var="objAeropuerto">
+
+                        <f:facet name="header">
+                            <p:outputPanel style="text-align: right;">
+                                <p:commandButton value="Agregar Aeropuerto" action="#{aeropuertoControlador.inicializarAgregar()}"
+                                                 onclick="PF('wEditar').show();"  />    
+                            </p:outputPanel>
+                        </f:facet>
+
+                        <p:column headerText="Id" >
+                            <p:outputLabel value="#{objAeropuerto.idaeropuerto}" />
+                        </p:column>
+                        <p:column headerText="Aeropuerto" >
+                            <p:outputLabel value="#{objAeropuerto.aeropuerto}" />
+                        </p:column>
+                        <p:column headerText="Pais" >
+                            <p:outputLabel value="#{objAeropuerto.idpais.pais}" />
+                        </p:column>
+                        <p:column headerText="Ciudad" >
+                            <p:outputLabel value="#{objAeropuerto.ciudad}" />
+                        </p:column>
+                        <p:column headerText="" style="width: 200px;" >
+                            <p:commandButton value="Editar" icon="fa fa-edit" process="@this" update="frmAeropuertoEditar" 
+                                             onclick="PF('wEditar').show();" action="#{aeropuertoControlador.inicializarEditar()}" >
+                                <f:setPropertyActionListener target="#{aeropuertoControlador.objAeropuertoSeleccionado}" value="#{objAeropuerto}" />
+                            </p:commandButton>
+
+                            <p:commandButton value="Eliminar" icon="fa fa-trash" process="@this" update="frmAeropuerto" 
+                                             action="#{aeropuertoControlador.eliminar()}" >
+                                <f:setPropertyActionListener target="#{aeropuertoControlador.objAeropuertoSeleccionado}" value="#{objAeropuerto}" />
+                                <p:confirm header="Confirmación" message="¿Eliminar aeropuerto?" icon="fa fa-exclamation" />
+                            </p:commandButton>
+
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+
+                <p:dialog id="dlgEditar" widgetVar="wEditar" closeOnEscape="true" header="Aeropuerto" modal="true" >
+                    <h:form id="frmAeropuertoEditar">                       
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="Id" for="txtId" rendered="#{aeropuertoControlador.agregarEditar.equalsIgnoreCase('Editar')}" />
+                            <p:inputText id="txtId" value="#{aeropuertoControlador.objAeropuertoSeleccionado.idaeropuerto}" rendered="#{aeropuertoControlador.agregarEditar.equalsIgnoreCase('Editar')}"/>
+                            <p:outputLabel value="Aeropuerto" for="txtAeropuerto" />
+                            <p:inputText id="txtAeropuerto" value="#{aeropuertoControlador.objAeropuertoSeleccionado.aeropuerto}" />
+                            <p:outputLabel value="Ciudad" for="txtCiudad" />
+                            <p:inputText id="txtCiudad" value="#{aeropuertoControlador.objAeropuertoSeleccionado.ciudad}" />
+                            <p:outputLabel value="Pais" for="cmbPais" />
+                            <p:selectOneMenu id="cmbPais" value="#{aeropuertoControlador.objAeropuertoSeleccionado.idpais}" 
+                                             converter="omnifaces.SelectItemsConverter">
+                                <f:selectItem itemValue="" itemLabel="--Selecciona un país--" />
+                                <f:selectItems value="#{aeropuertoControlador.lstPais}" var="objPais"
+                                               itemLabel="#{objPais.pais}" itemValue="#{objPais}"/>
+                            </p:selectOneMenu>
+
+                            <f:facet name="footer">
+                                <p:commandButton value="#{aeropuertoControlador.agregarEditar}" icon="fa fa-save"
+                                                 action="#{aeropuertoControlador.guardar}" update="frmAeropuerto" />
+                                <p:commandButton value="Cerrar" icon="fa fa-close" onclick="PF('wEditar').hide();"/>
+                            </f:facet>
+                        </p:panelGrid>
+                    </h:form>
+
+                </p:dialog>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

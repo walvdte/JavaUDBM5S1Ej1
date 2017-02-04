@@ -9,16 +9,31 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <h:outputStylesheet library="css" name="default.css"/>
         <h:outputStylesheet library="css" name="cssLayout.css"/>
-        <title>Facelets Template</title>
+        <link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/resources/images/favicon.ico"/>
+        <title>Aerolínea</title>
     </h:head>
 
-    <h:body>
+    <h:body class="wrapParaFooter">
 
         <div id="top">
             <ui:insert name="top">
                 <h:form>
+                    <h:graphicImage library="images" name="plane-01.png" style="vertical-align: middle;"/>
+                    <h1 style="display: inline;">Aerolínea UDB</h1>
+
+                    <p:growl autoUpdate="true" />
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" closeOnEscape="true">
+                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-close" />
+                    </p:confirmDialog>
+
                     <p:menubar>
-                        <p:menuitem action="/avion/crud.xhtml" value="Aviones" icon="fa fa-plane" />
+                        <p:submenu label="Aviones" icon="fa fa-plane">
+                            <p:menuitem action="/avion/crud.xhtml?faces-redirect=true" value="Administrar" />    
+                        </p:submenu>
+                        <p:submenu label="Aeropuerto" icon="fa fa-building">
+                            <p:menuitem action="/aeropuerto/crud.xhtml?faces-redirect=true" value="Administrar" />    
+                        </p:submenu>
                     </p:menubar>
                 </h:form>
             </ui:insert>
@@ -28,10 +43,12 @@
             <ui:insert name="content">Content</ui:insert>
         </div>
 
-        <div id="bottom">
+        <div id="bottom" class="stickToBottom">
             <ui:insert name="bottom">
-                <div class="bajoPerfil">
-                    Universidad Don Bosco    
+                <div style="padding: 10px;">
+                    <div class="bajoPerfil" style="font-size: 90%;">
+                        Universidad Don Bosco    
+                    </div>
                 </div>
             </ui:insert>
         </div>

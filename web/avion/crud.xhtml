@@ -12,8 +12,13 @@
 
             <ui:define name="content">
                 <h:form id="frmAvion">
-                    <p:growl autoUpdate="true" />
+                    <p:defaultCommand target=":frmAvion:tblAvion:btnBuscar" />
+
                     <p:panelGrid id="pnlAvion" columns="2">
+                        <f:facet name="header">
+                            <p:outputLabel value="#{avionControlador.agregarEditar} avión" />
+                        </f:facet>
+
                         <p:outputLabel value="Id" for="txtId" />
                         <p:inputText id="txtId" value="#{avionControlador.avionSeleccionado.idavion}" readonly="true" />
 
@@ -24,14 +29,24 @@
                         <p:inputText id="txtDescripcion" value="#{avionControlador.avionSeleccionado.descripcion}" />
 
                         <f:facet name="footer">
-                            <p:commandButton value="Guardar" icon="fa fa-save" action="#{avionControlador.guardar()}" update="frmAvion" />
+                            <p:commandButton value="#{avionControlador.agregarEditar}" icon="fa fa-save" action="#{avionControlador.guardar()}" update="frmAvion" />
+                            <p:commandButton value="Cancelar" icon="fa fa-close" process="@this"
+                                             action="#{avionControlador.cancelar()}" update="frmAvion" />
                         </f:facet>
 
 
                     </p:panelGrid>
 
-                    <p:dataTable id="tblAvion" value="#{avionControlador.lstAvion}" var="objAvion" >
-                        <p:column headerText="Id">
+                    <p:dataTable id="tblAvion" value="#{avionControlador.lstAvion}" var="objAvion" paginatorPosition="bottom"
+                                 paginator="true" rows="10">
+                        <f:facet name="header">
+                            <p:outputPanel style="text-align: right;">
+                                <p:inputText id="txtBuscar" placeholder="Buscar" value="#{avionControlador.descripcionABuscar}" />
+                                <p:commandButton widgetVar="wBuscar" id="btnBuscar" icon="fa fa-search" process="@this txtBuscar" update="frmAvion" 
+                                                 action="#{avionControlador.buscarPorDescripcion()}"/>
+                            </p:outputPanel>
+                        </f:facet>
+                        <p:column headerText="Id" style="width: 30px;">
                             <p:outputLabel value="#{objAvion.idavion}" />
                         </p:column>
 
@@ -39,13 +54,20 @@
                             <p:outputLabel value="#{objAvion.capacidad}" />
                         </p:column>
 
-                        <p:column headerText="Descripcion">
+                        <p:column headerText="Descripcion" >
                             <p:outputLabel value="#{objAvion.descripcion}" />
                         </p:column>
 
-                        <p:column headerText="">
-                            <p:commandButton value="Editar" icon="fa fa-edit" process="@this" update="frmAvion" >
+                        <p:column headerText="" style="width: 200px;">
+                            <p:commandButton value="Editar" icon="fa fa-edit" process="@this" update="frmAvion" 
+                                             action="#{avionControlador.inicializarEditar()}" >
                                 <f:setPropertyActionListener target="#{avionControlador.avionSeleccionado}" value="#{objAvion}" />
+                            </p:commandButton>
+
+                            <p:commandButton value="Eliminar" icon="fa fa-trash" process="@this" update="frmAvion" 
+                                             action="#{avionControlador.eliminar()}" >
+                                <f:setPropertyActionListener target="#{avionControlador.avionSeleccionado}" value="#{objAvion}" />
+                                <p:confirm header="Confirmación" message="¿Eliminar avión?" icon="fa fa-exclamation" />
                             </p:commandButton>
                         </p:column>
 
