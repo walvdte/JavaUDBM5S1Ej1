@@ -59,16 +59,18 @@
                         </p:column>
 
                         <p:column headerText="" style="width: 200px;">
-                            <p:commandButton value="Editar" icon="fa fa-edit" process="@this" update="frmAvion" 
-                                             action="#{avionControlador.inicializarEditar()}" >
-                                <f:setPropertyActionListener target="#{avionControlador.avionSeleccionado}" value="#{objAvion}" />
-                            </p:commandButton>
+                            <p:menuButton value="Acciones" >
+                                <p:menuitem value="Editar" icon="fa fa-edit" process="@this" update="frmAvion" 
+                                                 action="#{avionControlador.inicializarEditar()}" >
+                                    <f:setPropertyActionListener target="#{avionControlador.avionSeleccionado}" value="#{objAvion}" />
+                                </p:menuitem>
 
-                            <p:commandButton value="Eliminar" icon="fa fa-trash" process="@this" update="frmAvion" 
-                                             action="#{avionControlador.eliminar()}" >
-                                <f:setPropertyActionListener target="#{avionControlador.avionSeleccionado}" value="#{objAvion}" />
-                                <p:confirm header="Confirmación" message="¿Eliminar avión?" icon="fa fa-exclamation" />
-                            </p:commandButton>
+                                <p:menuitem value="Eliminar" icon="fa fa-trash" process="@this" update="frmAvion" 
+                                                 action="#{avionControlador.eliminar()}" >
+                                    <f:setPropertyActionListener target="#{avionControlador.avionSeleccionado}" value="#{objAvion}" />
+                                    <p:confirm header="Confirmación" message="¿Eliminar avión?" icon="fa fa-exclamation" />
+                                </p:menuitem>
+                            </p:menuButton>
                         </p:column>
 
                     </p:dataTable>
