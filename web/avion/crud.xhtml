@@ -12,34 +12,40 @@
 
             <ui:define name="content">
                 <h:form id="frmAvion">
-                    <p:defaultCommand target=":frmAvion:tblAvion:btnBuscar" />
-
-                    <p:panelGrid id="pnlAvion" columns="2">
+                    <p:panel toggleable="true">
                         <f:facet name="header">
                             <p:outputLabel value="#{avionControlador.agregarEditar} avión" />
                         </f:facet>
 
-                        <p:outputLabel value="Id" for="txtId" />
-                        <p:inputText id="txtId" value="#{avionControlador.avionSeleccionado.idavion}" readonly="true" />
+                        <p:panelGrid id="pnlAvion" columns="6" class="pnlGridSinBordes">
 
-                        <p:outputLabel value="Capacidad" for="txtCapacidad" />
-                        <p:inputText id="txtCapacidad" value="#{avionControlador.avionSeleccionado.capacidad}" />
+                            <p:outputLabel value="Id" for="txtId" rendered="#{avionControlador.agregarEditar.equals('Editar')}" />
+                            <p:inputText id="txtId" value="#{avionControlador.avionSeleccionado.idavion}" readonly="true"
+                                         rendered="#{avionControlador.agregarEditar.equals('Editar')}"/>
 
-                        <p:outputLabel value="Descripción" for="txtDescripcion" />
-                        <p:inputText id="txtDescripcion" value="#{avionControlador.avionSeleccionado.descripcion}" />
+                            <p:outputLabel value="Capacidad" for="txtCapacidad" />
+                            <p:inputText id="txtCapacidad" value="#{avionControlador.avionSeleccionado.capacidad}" />
+
+                            <p:outputLabel value="Descripción" for="txtDescripcion" />
+                            <p:inputText id="txtDescripcion" value="#{avionControlador.avionSeleccionado.descripcion}" />
+
+                        </p:panelGrid>
 
                         <f:facet name="footer">
-                            <p:commandButton value="#{avionControlador.agregarEditar}" icon="fa fa-save" action="#{avionControlador.guardar()}" update="frmAvion" />
+                            <p:commandButton value="#{avionControlador.agregarEditar}" icon="fa fa-save" action="#{avionControlador.guardar()}" 
+                                             update="frmAvion" />
                             <p:commandButton value="Cancelar" icon="fa fa-close" process="@this"
                                              action="#{avionControlador.cancelar()}" update="frmAvion" />
                         </f:facet>
 
+                    </p:panel>
 
-                    </p:panelGrid>
+                    <br/>
 
                     <p:dataTable id="tblAvion" value="#{avionControlador.lstAvion}" var="objAvion" paginatorPosition="bottom"
                                  paginator="true" rows="10">
                         <f:facet name="header">
+                            <p:outputLabel value="Aviones" />
                             <p:outputPanel style="text-align: right;">
                                 <p:inputText id="txtBuscar" placeholder="Buscar" value="#{avionControlador.descripcionABuscar}" />
                                 <p:commandButton widgetVar="wBuscar" id="btnBuscar" icon="fa fa-search" process="@this txtBuscar" update="frmAvion" 
@@ -61,12 +67,12 @@
                         <p:column headerText="" style="width: 200px;">
                             <p:menuButton value="Acciones" >
                                 <p:menuitem value="Editar" icon="fa fa-edit" process="@this" update="frmAvion" 
-                                                 action="#{avionControlador.inicializarEditar()}" >
+                                            action="#{avionControlador.inicializarEditar()}" >
                                     <f:setPropertyActionListener target="#{avionControlador.avionSeleccionado}" value="#{objAvion}" />
                                 </p:menuitem>
 
                                 <p:menuitem value="Eliminar" icon="fa fa-trash" process="@this" update="frmAvion" 
-                                                 action="#{avionControlador.eliminar()}" >
+                                            action="#{avionControlador.eliminar()}" >
                                     <f:setPropertyActionListener target="#{avionControlador.avionSeleccionado}" value="#{objAvion}" />
                                     <p:confirm header="Confirmación" message="¿Eliminar avión?" icon="fa fa-exclamation" />
                                 </p:menuitem>
